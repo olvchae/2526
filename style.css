@@ -1,0 +1,944 @@
+@font-face {
+  font-family: 'ThinRounded';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/2511-1@1.0/ThinDungGeunMo.woff2') format('woff2');
+  font-weight: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'BagelFat';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_JAMO@1.0/BagelFatOne-Regular.woff2') format('woff2');
+  font-weight: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'SchoolSafetyPoster';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/2511-1@1.0/HakgyoansimPosterB.woff2') format('woff2');
+  font-weight: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'SchoolSafeBoardMarker';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/2511-1@1.0/HakgyoansimBoadmarkerR.woff2') format('woff2');
+  font-weight: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'PartialSans';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2307-1@1.1/PartialSansKR-Regular.woff2') format('woff2');
+  font-weight: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'DaeguDongseongRo';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/2511-1@1.0/DaeguDongseongro-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'DaeguDongseongRo';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/2511-1@1.0/DaeguDongseongro-Bold.woff2') format('woff2');
+  font-weight: 700;
+  font-display: swap;
+}
+
+:root{
+  --font:'ThinRounded';
+  --b: clamp(2px, 0.6vw, 3px);
+  --winW: min(96vw, 980px);
+  --winH: min(85svh, 720px);
+
+  --shadow: 0 14px 0 rgba(0,0,0,.12);
+  --pad: clamp(16px, 4vw, 28px);
+  --titleH: clamp(44px, 9vw, 56px);
+
+  --text: #111;
+  --desk: #b7b7b7;
+  --paper: #ffffff;
+  --paper2: #fffdf6;
+  --line: rgba(0,0,0,.14);
+}
+
+/* 모바일 최적화 */
+@media (max-width: 768px) {
+  :root {
+    --winW: 96vw;
+    --winH: 88svh;
+    --pad: clamp(12px, 3vw, 20px);
+  }
+}
+
+*{ box-sizing:border-box; }
+
+body{
+  margin:0;
+  font-family:var(--font);
+  color:var(--text);
+  min-height:100svh;
+  overflow:hidden;
+}
+
+.bg{
+  position:fixed;
+  inset:0;
+  background: linear-gradient(180deg,#bfc7cf 0%, #b7b7b7 55%, #bdbdbd 100%);
+}
+.bg::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  opacity:0;
+  pointer-events:none;
+}
+
+.stage{
+  position: relative;
+  min-height:100svh;
+  width: 100vw;
+  overflow:hidden;
+}
+
+/* 중앙정렬 핵심 */
+.center{
+  width:100%;
+  height:100%;
+  display:grid;
+  place-items:center;
+  gap: clamp(14px, 3.6vw, 22px);
+  text-align:center;
+  position: relative;
+  z-index: 10;
+}
+
+.step{
+  position:absolute;
+  inset:0;
+  width: 100vw;
+  height: 100svh;
+  display:none;
+  animation: fadeIn .25s ease-out both;
+}
+.step.active{ display:block; }
+
+@keyframes fadeIn{
+  from{ opacity:0; transform: translateY(6px); }
+  to{ opacity:1; transform: translateY(0); }
+}
+
+
+/* 윈도우 알림창 스타일 */
+.questionCard{
+  width: min(90vw, 580px);
+  max-width: 580px;
+  border: 3px solid #111;
+  background: #d4d0c8;
+  box-shadow:
+    0 8px 0 rgba(0,0,0,.2),
+    inset 2px 2px 0 rgba(255,255,255,.9),
+    inset -2px -2px 0 rgba(64,64,64,.5);
+  padding: 0;
+  overflow: hidden;
+  position: relative;
+  z-index: 10;
+  margin: 0 auto;
+}
+
+.questionCard__header{
+  background: linear-gradient(180deg, #888 0%, #555 100%);
+  padding: 8px 12px;
+  border-bottom: 2px solid #111;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  justify-content: space-between;
+}
+
+.questionCard__left{
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.questionCard__controls{
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.windowBtn{
+  width: 18px;
+  height: 18px;
+  border: 2px solid #111;
+  background: #d0d0d0;
+  box-shadow: inset 1px 1px 0 rgba(255,255,255,.7), inset -1px -1px 0 rgba(0,0,0,.3);
+  cursor: default;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  color: #111;
+  font-weight: bold;
+}
+.windowBtn.minimize{
+  padding-bottom: 8px;
+}
+.windowBtn.maximize::after{
+  content: "";
+  width: 10px;
+  height: 10px;
+  border: 2px solid #111;
+  box-sizing: border-box;
+}
+.windowBtn.close{
+  background: #c0c0c0;
+}
+
+.questionCard__icon{
+  width: 20px;
+  height: 20px;
+  background: #e0e0e0;
+  border: 2px solid #111;
+  border-radius: 2px;
+  flex-shrink: 0;
+  box-shadow: inset 1px 1px 0 rgba(255,255,255,.6);
+}
+
+.questionCard__title{
+  font-size: clamp(14px, 3.2vw, 18px);
+  color: #fff;
+  font-weight: bold;
+  text-shadow: 1px 1px 0 rgba(0,0,0,.5);
+}
+
+.questionCard__body{
+  padding: clamp(14px, 3.5vw, 20px);
+  background: #d4d0c8;
+}
+
+.questionText{
+  font-size: clamp(15px, 3.6vw, 20px);
+  margin-bottom: clamp(10px, 2.5vw, 14px);
+  color: #111;
+}
+
+/* 꾸미기 패널 */
+.decoratePanel{
+  display: flex;
+  flex-direction: column;
+  gap: clamp(8px, 2vw, 10px);
+  margin-bottom: clamp(10px, 2.5vw, 14px);
+  padding: clamp(10px, 2.5vw, 14px);
+  background: rgba(0,0,0,.04);
+  border: 2px solid rgba(0,0,0,.1);
+  border-radius: 4px;
+}
+
+.decorateRow{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.decorateLabel{
+  font-size: clamp(12px, 2.8vw, 14px);
+  font-weight: bold;
+  color: #555;
+  flex-shrink: 0;
+  min-width: clamp(50px, 12vw, 60px);
+}
+
+.stickerPicker{
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.stickerBtn{
+  width: clamp(32px, 8vw, 40px);
+  height: clamp(32px, 8vw, 40px);
+  border: 2px solid #999;
+  background: #fff;
+  border-radius: 4px;
+  font-size: clamp(16px, 4vw, 20px);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s;
+  box-shadow: inset 1px 1px 0 rgba(255,255,255,.8), 0 2px 0 rgba(0,0,0,.1);
+}
+
+.stickerBtn:hover{
+  background: #f5f5f5;
+  transform: scale(1.1);
+  border-color: #666;
+}
+
+.stickerBtn.active{
+  background: #ffe8a3;
+  border-color: #111;
+  box-shadow: inset 0 0 0 2px #ffd966, 0 3px 0 rgba(0,0,0,.15);
+  transform: scale(1.05);
+}
+
+.fontPicker{
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  flex: 1;
+}
+
+.fontBtn{
+  padding: clamp(6px, 1.5vw, 8px) clamp(10px, 2.5vw, 14px);
+  border: 2px solid #999;
+  background: #fff;
+  border-radius: 4px;
+  font-size: clamp(12px, 2.8vw, 14px);
+  cursor: pointer;
+  font-family: var(--font);
+  transition: all 0.15s;
+  box-shadow: inset 1px 1px 0 rgba(255,255,255,.8), 0 2px 0 rgba(0,0,0,.1);
+}
+
+.fontBtn:hover{
+  background: #f5f5f5;
+  border-color: #666;
+}
+
+.fontBtn.active{
+  background: #ffe8a3;
+  border-color: #111;
+  box-shadow: inset 0 0 0 2px #ffd966, 0 3px 0 rgba(0,0,0,.15);
+}
+
+/* 종이 */
+.paper{
+  width: 100%;
+  border: var(--b) solid #111;
+  background: var(--paper);
+  box-shadow: 0 12px 0 rgba(0,0,0,.10), inset 2px 2px 0 rgba(255,255,255,.9);
+  position:relative;
+  padding: clamp(14px, 3.2vw, 18px);
+  text-align:left;
+}
+.paper--fresh{
+  background: var(--paper2);
+}
+.paper__header{
+  font-size: clamp(16px, 3.8vw, 20px);
+  font-weight: bold;
+  text-align: center;
+  padding-bottom: clamp(10px, 2.5vw, 14px);
+  margin-bottom: clamp(10px, 2.5vw, 14px);
+  border-bottom: 2px dashed rgba(0,0,0,.15);
+  color: #333;
+}
+.paper__inner{
+  display:flex;
+  flex-direction:column;
+  gap: clamp(12px, 3.2vw, 18px);
+}
+.paper__footer{
+  font-size: clamp(11px, 2.6vw, 13px);
+  text-align: right;
+  color: #999;
+  margin-top: clamp(12px, 3vw, 16px);
+  padding-top: clamp(8px, 2vw, 10px);
+  border-top: 1px solid rgba(0,0,0,.08);
+}
+.paper__corner{
+  position:absolute;
+  right:0; bottom:0;
+  width: 16px; height: 16px;
+  background: linear-gradient(135deg, transparent 50%, rgba(0,0,0,.10) 50%);
+  border-left: var(--b) solid #111;
+  border-top: var(--b) solid #111;
+}
+
+/* 라인 + 입력 */
+.lineRow{
+  display:flex;
+  align-items:center;
+  gap: 12px;
+}
+.num{
+  width: 32px;
+  font-size: clamp(18px, 4.2vw, 24px);
+}
+.star{ width: 32px; }
+
+.inp{
+  flex:1;
+  border: 0;
+  outline: none;
+  font-family: var(--font);
+  font-size: max(16px, clamp(15px, 3.4vw, 19px));
+  padding: 8px 10px;
+  min-height: 40px;
+
+  background:
+    linear-gradient(transparent 70%, var(--line) 71%, var(--line) 73%, transparent 74%);
+  background-size: 100% 38px;
+  background-position: 0 8px;
+
+  border-left: 3px solid rgba(0,0,0,.06);
+  border-bottom: 2px solid rgba(0,0,0,.18);
+  box-shadow: inset 2px 2px 0 rgba(255,255,255,.7), inset -2px -2px 0 rgba(0,0,0,.06);
+}
+.inp:focus{
+  border-bottom-color: rgba(0,0,0,.35);
+}
+
+/* 버튼들 */
+.actions{
+  display:flex;
+  gap: 10px;
+  justify-content:center;
+  flex-wrap:wrap;
+  margin-top: clamp(14px, 3.5vw, 20px);
+}
+
+.next, .btn{
+  min-height: 44px;
+  padding: 10px 18px;
+  border: 2px solid #8d8d8d;
+  background:#d3d3d3;
+  box-shadow: inset -2px -2px 0 #b1b1b1, inset 2px 2px 0 #efefef;
+  font-family: var(--font);
+  font-size: clamp(16px, 3.8vw, 22px);
+  cursor:pointer;
+  transition: transform 0.05s, background 0.15s;
+  position: relative;
+}
+
+.next:hover, .btn:hover{
+  background:#e0e0e0;
+  box-shadow: inset -2px -2px 0 #bebebe, inset 2px 2px 0 #f5f5f5;
+}
+
+.next:hover::after, .btn:hover::after{
+  content: "";
+  position: absolute;
+  inset: -6px;
+  border: 2px dashed #555;
+  pointer-events: none;
+}
+
+.next:active, .btn:active{
+  transform: translateY(1px);
+  box-shadow: inset 2px 2px 0 #b1b1b1, inset -2px -2px 0 #efefef;
+  background:#c8c8c8;
+}
+
+.big{
+  padding: 12px 22px;
+}
+
+
+/* 모달 */
+.modal{
+  width: min(86vw, 420px);
+  background:#d4d0c8;
+  border: 3px solid #111;
+  box-shadow:
+    0 10px 0 rgba(0,0,0,.2),
+    inset 2px 2px 0 rgba(255,255,255,.9),
+    inset -2px -2px 0 rgba(64,64,64,.5);
+  padding: 0;
+  overflow: hidden;
+}
+.modal__header{
+  background: linear-gradient(180deg, #888 0%, #555 100%);
+  padding: 8px 12px;
+  border-bottom: 2px solid #111;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.modal__left{
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.modal__icon{
+  width: 20px;
+  height: 20px;
+  background: #e0e0e0;
+  border: 2px solid #111;
+  border-radius: 2px;
+  flex-shrink: 0;
+  box-shadow: inset 1px 1px 0 rgba(255,255,255,.6);
+}
+.modal__headerTitle{
+  font-size: clamp(14px, 3.2vw, 18px);
+  color: #fff;
+  font-weight: bold;
+  text-shadow: 1px 1px 0 rgba(0,0,0,.5);
+}
+.modal__controls{
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+.modal__content{
+  padding: clamp(24px, 6vw, 32px) clamp(20px, 5vw, 28px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(18px, 4.5vw, 24px);
+}
+.modal__title{
+  font-size: clamp(16px, 4vw, 20px);
+  margin: 0;
+  text-align: center;
+  line-height: 1.5;
+  color: #111;
+}
+.modal__actions{
+  display:flex;
+  justify-content:center;
+  gap: 12px;
+  flex-wrap:wrap;
+  width: 100%;
+}
+
+/* 2025 보내기 연출: 종이 날려보내기 */
+.flyPaper{
+  position:absolute;
+  left: 50%;
+  top: 54%;
+  transform: translate(-50%, -50%);
+  width: min(74vw, 560px);
+  opacity:0;
+  pointer-events:none;
+}
+.flyPaper.show{
+  opacity:1;
+}
+.flyPaper.crumple{
+  animation: crumple 1s ease-in-out both;
+}
+.flyPaper.fly{
+  animation: flyAway 2.5s ease-in both;
+}
+
+/* 텍스트 표시용 */
+.txt{
+  flex:1;
+  min-height: 46px;
+  display:flex;
+  align-items:center;
+  padding: 8px 10px;
+  font-size: max(16px, clamp(16px, 3.8vw, 22px));
+  border-bottom: 2px solid rgba(0,0,0,.14);
+}
+
+@keyframes crumple{
+  0%{
+    transform: translate(-50%,-50%) scale(1);
+    opacity: 1;
+  }
+  20%{
+    transform: translate(-50%,-50%) scaleX(0.5) scaleY(1);
+    opacity: 0.95;
+  }
+  40%{
+    transform: translate(-50%,-50%) scaleX(0.5) scaleY(0.5);
+    opacity: 0.85;
+  }
+  60%{
+    transform: translate(-50%,-50%) scaleX(0.25) scaleY(0.25);
+    opacity: 0.7;
+  }
+  80%{
+    transform: translate(-50%,-50%) scale(0.1);
+    opacity: 0.45;
+  }
+  100%{
+    transform: translate(-50%,-50%) scale(0.02);
+    opacity: 0.15;
+  }
+}
+@keyframes flyAway{
+  0%{
+    transform: translate(-50%,-50%) scale(0.02);
+    opacity: 0.15;
+  }
+  100%{
+    transform: translate(-50%,-50%) scale(0);
+    opacity: 0;
+  }
+}
+
+
+/* 저장 토스트 */
+.toast{
+  position:absolute;
+  left:50%;
+  bottom: 18px;
+  transform: translateX(-50%);
+  background:#111;
+  color:#fff;
+  padding: 10px 14px;
+  border: 2px solid #fff;
+  opacity:0;
+  pointer-events:none;
+}
+.toast.on{
+  opacity:1;
+  animation: toast .9s ease-out both;
+}
+@keyframes toast{
+  0%{ opacity:0; transform: translateX(-50%) translateY(8px); }
+  15%{ opacity:1; transform: translateX(-50%) translateY(0); }
+  85%{ opacity:1; }
+  100%{ opacity:0; }
+}
+
+/* 폭죽 캔버스 */
+.fx{
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+}
+
+/* 마지막 */
+.final{
+  width:100%;
+  height:100%;
+  display:grid;
+  place-items:center;
+  gap: 16px;
+}
+.final p{
+  margin:0;
+  font-size: clamp(18px, 4.8vw, 30px);
+}
+
+/* 해 지는 씬 (STEP 0) - 따뜻한 석양 */
+.sunsetWrap{
+  width: min(78vw, 560px);
+  height: min(40vh, 240px);
+  position: relative;
+  overflow:hidden;
+  border: var(--b) solid #111;
+  /* a more emotional, still sunset */
+  background: linear-gradient(180deg, rgb(142, 134, 180) 0%, rgb(242, 175, 165) 70%, rgb(255, 225, 180) 100%);
+}
+
+.sunsetWrap.fullscreen, .sunWrap.fullscreen{
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+  box-shadow: none;
+}
+
+.sunsetWrap.static .sunsetSun.gone{
+  bottom: -30%;
+  animation: none;
+}
+
+.sunsetWrap.static{
+  pointer-events: none;
+}
+
+.sunsetHorizon{
+  position:absolute;
+  left:0; right:0;
+  bottom:0;
+  height: 35%;
+  /* dark, dusty purple sea */
+  background: linear-gradient(180deg, rgb(70, 90, 130) 0%, rgb(100, 90, 120) 100%);
+  z-index: 2;
+}
+
+.sunsetSun{
+  position:absolute;
+  left:50%;
+  top: 15%;
+  transform: translateX(-50%);
+  width: min(45vw, 220px);
+  height: min(45vw, 220px);
+  border-radius: 999px;
+  border: none;
+  /* slightly desaturated peachy-pink sun */
+  background: radial-gradient(circle, #ffffff 0%, #fff5e1 60%, #ffde99 100%);
+  animation: sunset 7s ease-in-out forwards;
+  z-index: 1;
+  /* soft glow */
+  box-shadow: 0 0 50px 20px rgba(255, 210, 140, 0.55);
+}
+
+.yearLabel{
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  font-size: clamp(42px, 12vw, 86px);
+  font-weight: bold;
+  color: rgba(255,255,255,.95);
+  text-shadow:
+    2px 2px 0 #111,
+    -2px -2px 0 #111,
+    2px -2px 0 #111,
+    -2px 2px 0 #111;
+  z-index: 10;
+  animation: fadeOut 0.8s ease-out 5s forwards;
+  pointer-events: none;
+}
+
+@keyframes sunset{
+  0%{ top: 15%; }
+  100%{ top: 100%; }
+}
+
+@keyframes fadeOut{
+  0%{ opacity: 1; }
+  100%{ opacity: 0; }
+}
+
+/* 해 뜨는 씬 (STEP 5) - 밝고 희망찬 아침 */
+.sunWrap{
+  width: 100%;
+  height: 100%;
+  position: relative;
+  overflow:hidden;
+  /* clear blue to golden yellow for a "magic hour" feel */
+  background: linear-gradient(180deg, #6e88a8 0%, #a4c2d8 50%, #f7e8a4 85%, #fddc9d 100%);
+}
+
+.sunWrap.fullscreen{
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+.horizon{
+  position:absolute;
+  left:0; right:0;
+  bottom:0;
+  height: 35%;
+  /* clear blue sea */
+  background: linear-gradient(180deg, rgb(100, 150, 190) 0%, rgb(120, 180, 190) 100%);
+  z-index: 2;
+}
+
+.sun{
+  position:absolute;
+  left:50%;
+  bottom:-8%;
+  transform: translateX(-50%);
+  width: min(45vw, 220px);
+  height: min(45vw, 220px);
+  border-radius: 999px;
+  border: none;
+  /* simple, soft, non-glowing sun */
+  background: radial-gradient(circle, #ffffff 0%, #fff2d6 70%, #ffe8c5 100%);
+  animation: sunrise 3.5s ease-in-out forwards;
+  z-index: 1;
+  box-shadow: 0 0 60px 20px rgba(255, 240, 200, 0.4);
+}
+
+.yearLabel2026{
+  position: absolute;
+  left: 50%;
+  top: 48%;
+  transform: translate(-50%, -50%);
+  font-size: clamp(42px, 12vw, 86px);
+  font-weight: bold;
+  color: rgba(255,255,255,.95);
+  text-shadow:
+    2px 2px 0 #111,
+    -2px -2px 0 #111,
+    2px -2px 0 #111,
+    -2px 2px 0 #111;
+  z-index: 10;
+  animation: fadeIn2026 3s ease-out forwards;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.clock{
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 68%;
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: clamp(4px, 1vw, 6px);
+  z-index: 10;
+  animation: fadeIn 2s ease-out 3s forwards;
+  opacity: 0;
+  pointer-events: none;
+  width: fit-content;
+}
+
+.clock__digit{
+  background: rgba(255, 255, 255, 0.95);
+  color: #2a2a2a;
+  font-family: var(--font);
+  font-size: clamp(28px, 7vw, 48px);
+  font-weight: bold;
+  padding: clamp(6px, 1.5vw, 10px) clamp(8px, 2vw, 12px);
+  border: 3px solid rgba(180, 180, 180, 0.6);
+  border-radius: 3px;
+  min-width: clamp(32px, 8vw, 48px);
+  text-align: center;
+  box-shadow:
+    0 4px 8px rgba(0,0,0,.15),
+    inset -1px -1px 0 rgba(0,0,0,.1),
+    inset 1px 1px 0 rgba(255,255,255,.4);
+  position: relative;
+  transition: transform 0.8s ease-in-out;
+  transform-style: preserve-3d;
+}
+
+.clock__digit.flip{
+  animation: flipAnimation 0.8s cubic-bezier(0.4, 0.0, 0.2, 1);
+}
+
+@keyframes flipAnimation{
+  0%{
+    transform: rotateX(0deg);
+  }
+  45%{
+    transform: rotateX(90deg);
+    opacity: 0.6;
+  }
+  55%{
+    transform: rotateX(90deg);
+    opacity: 0.6;
+  }
+  100%{
+    transform: rotateX(0deg);
+  }
+}
+
+.clock__digit::before{
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 1px;
+  background: rgba(0,0,0,.08);
+  z-index: 1;
+}
+
+.clock__separator{
+  display: flex;
+  align-items: center;
+  font-size: clamp(24px, 6vw, 40px);
+  color: rgba(50, 50, 50, 0.8);
+  font-weight: bold;
+  padding: 0 clamp(1px, 0.3vw, 2px);
+}
+
+.newYearMessage{
+  display: none;
+}
+
+/* 새해 알림창 */
+.newYearAlert{
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  z-index: 1000;
+  animation: fadeIn 0.3s ease-out;
+  background: rgba(0,0,0,0.25);
+}
+
+.newYearAlert .sunWrap,
+.newYearAlert .sunsetWrap{
+  position: absolute;
+  z-index: 1;
+}
+
+.newYearAlert .modal{
+  animation: popIn 0.5s ease-out;
+  position: relative;
+  z-index: 2;
+}
+
+@keyframes popIn{
+  0%{
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  50%{
+    transform: scale(1.05);
+    opacity: 1;
+  }
+  100%{
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes sunrise{
+  0%{ bottom: -8%; }
+  100%{ bottom: 48%; }
+}
+
+@keyframes fadeIn2026{
+  0%{ opacity: 0; transform: translate(-50%, -50%) translateY(10px); }
+  100%{ opacity: 1; transform: translate(-50%, -50%) translateY(0); }
+}
+
+/* 다시 시작 버튼 영역 */
+.restartArea{
+  position: absolute;
+  bottom: clamp(20px, 4vh, 32px);
+  left: 0;
+  right: 0;
+  animation: fadeIn 1s ease-out 5s both;
+  text-align: center;
+  z-index: 20;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.restartArea .next{
+  padding: 7px 16px;
+  font-size: clamp(13px, 2.8vw, 15px);
+  min-height: auto;
+}
+
+/* 자연스러운 지평선 효과 */
+.sunsetHorizon::before,
+.horizon::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  transform: translateY(-50%);
+  z-index: 3;
+}
+
+.sunsetHorizon::before {
+  height: 30px;
+  background: linear-gradient(180deg, rgba(255, 225, 180, 0.4) 0%, rgba(255, 225, 180, 0) 100%);
+  filter: blur(10px);
+}
+
+.horizon::before {
+  height: 25px;
+  background: linear-gradient(180deg, rgba(240, 245, 255, 0.5) 0%, rgba(240, 245, 255, 0) 100%);
+  filter: blur(8px);
+}

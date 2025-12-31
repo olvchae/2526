@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>2025->2026</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="bg"></div>
+
+  <main class="stage" id="captureArea">
+
+    <!-- STEP 0: 시작(해지는 모션만) -->
+    <div class="step active" data-step="0">
+      <!-- 해지는 씬 (전체 화면) -->
+      <div class="sunsetWrap fullscreen" id="sunsetWrap">
+        <div class="sunsetSun"></div>
+        <div class="sunsetHorizon"></div>
+        <div class="yearLabel">2025</div>
+      </div>
+    </div>
+
+    <!-- STEP 1: 2025 입력 -->
+    <div class="step" data-step="1">
+      <!-- 배경: 해진 후 -->
+      <div class="sunsetWrap fullscreen static">
+        <div class="sunsetSun gone"></div>
+        <div class="sunsetHorizon"></div>
+      </div>
+
+      <div class="center">
+        <div class="questionCard">
+          <div class="questionCard__header">
+            <div class="questionCard__left">
+              <div class="questionCard__icon"></div>
+              <div class="questionCard__title">2025년 회고</div>
+            </div>
+            <div class="questionCard__controls">
+              <div class="windowBtn minimize">_</div>
+              <div class="windowBtn maximize"></div>
+              <div class="windowBtn close">×</div>
+            </div>
+          </div>
+          <div class="questionCard__body">
+            <div class="questionText">Q. 2025년 잘한 선택은 무엇인가요?</div>
+
+            <div class="paper" id="paper2025">
+              <div class="paper__inner">
+                <div class="lineRow"><span class="num">1.</span><input class="inp" maxlength="32" /></div>
+                <div class="lineRow"><span class="num">2.</span><input class="inp" maxlength="32" /></div>
+                <div class="lineRow"><span class="num">3.</span><input class="inp" maxlength="32" /></div>
+              </div>
+              <div class="paper__corner" aria-hidden="true"></div>
+            </div>
+
+            <div class="actions">
+              <button class="next" id="toSendModal">다음</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 2: 2025 보내기 모달 -->
+    <div class="step" data-step="2">
+      <!-- 배경: 해진 후 -->
+      <div class="sunsetWrap fullscreen static">
+        <div class="sunsetSun gone"></div>
+        <div class="sunsetHorizon"></div>
+      </div>
+
+      <div class="center">
+        <div class="modal">
+          <div class="modal__header">
+            <div class="modal__left">
+              <div class="modal__icon"></div>
+              <div class="modal__headerTitle">알림</div>
+            </div>
+            <div class="modal__controls">
+              <div class="windowBtn minimize">_</div>
+              <div class="windowBtn maximize"></div>
+              <div class="windowBtn close">×</div>
+            </div>
+          </div>
+          <div class="modal__content">
+            <div class="modal__title">Q. 2025년을 보내시겠습니까?</div>
+            <div class="modal__actions">
+              <button class="btn" id="stay2025">아니오</button>
+              <button class="btn" id="send2025">네</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 날아갈 종이(애니메이션 전용) -->
+        <div class="paper flyPaper" id="flyPaper">
+          <div class="paper__inner">
+            <div class="lineRow"><span class="num">1.</span><div class="txt" id="p1"></div></div>
+            <div class="lineRow"><span class="num">2.</span><div class="txt" id="p2"></div></div>
+            <div class="lineRow"><span class="num">3.</span><div class="txt" id="p3"></div></div>
+          </div>
+          <div class="paper__corner" aria-hidden="true"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 3: 2026 입력 + 이미지 저장 -->
+    <div class="step" data-step="3">
+      <!-- 배경: 해진 후 -->
+      <div class="sunsetWrap fullscreen static">
+        <div class="sunsetSun gone"></div>
+        <div class="sunsetHorizon"></div>
+      </div>
+
+      <div class="center">
+        <div class="questionCard">
+          <div class="questionCard__header">
+            <div class="questionCard__left">
+              <div class="questionCard__icon"></div>
+              <div class="questionCard__title">2026년 목표</div>
+            </div>
+            <div class="questionCard__controls">
+              <div class="windowBtn minimize">_</div>
+              <div class="windowBtn maximize"></div>
+              <div class="windowBtn close">×</div>
+            </div>
+          </div>
+          <div class="questionCard__body">
+            <div class="questionText">Q. 2026년 목표는 무엇인가요?</div>
+
+            <div class="decoratePanel">
+              <div class="decorateRow">
+                <div class="decorateLabel">스티커:</div>
+                <div class="stickerPicker" id="stickerPicker">
+                  <button class="stickerBtn" data-sticker="✦">✦</button>
+                  <button class="stickerBtn" data-sticker="⭐">⭐</button>
+                  <button class="stickerBtn" data-sticker="💫">💫</button>
+                  <button class="stickerBtn" data-sticker="🌟">🌟</button>
+                  <button class="stickerBtn" data-sticker="✨">✨</button>
+                  <button class="stickerBtn" data-sticker="🎯">🎯</button>
+                </div>
+              </div>
+              <div class="decorateRow">
+                <div class="decorateLabel">폰트:</div>
+                <div class="fontPicker" id="fontPicker">
+                  <button class="fontBtn active" data-font="ThinRounded">1</button>
+                  <button class="fontBtn" data-font="BagelFat">2</button>
+                  <button class="fontBtn" data-font="SchoolSafetyPoster">3</button>
+                  <button class="fontBtn" data-font="SchoolSafeBoardMarker">4</button>
+                  <button class="fontBtn" data-font="PartialSans">5</button>
+                  <button class="fontBtn" data-font="DaeguDongseongRo">6</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="paper paper--fresh" id="paper2026">
+              <div class="paper__header" id="paperHeader">2026년 목표 ✨</div>
+              <div class="paper__inner">
+                <div class="lineRow"><span class="num star" id="sticker1">✦</span><input class="inp" maxlength="40" /></div>
+                <div class="lineRow"><span class="num star" id="sticker2">✦</span><input class="inp" maxlength="40" /></div>
+                <div class="lineRow"><span class="num star" id="sticker3">✦</span><input class="inp" maxlength="40" /></div>
+              </div>
+              <div class="paper__footer">2026.01.01</div>
+              <div class="paper__corner" aria-hidden="true"></div>
+            </div>
+
+            <div class="actions">
+              <button class="btn" id="saveBtn">이미지 저장</button>
+              <button class="next" id="toFinal">다음</button>
+            </div>
+
+            <div class="toast" id="toast">저장 완료!</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 폭죽 캔버스 -->
+      <canvas id="fx" class="fx" aria-hidden="true"></canvas>
+    </div>
+
+    <!-- STEP 4: 2026 맞이 모달 -->
+    <div class="step" data-step="4">
+      <!-- 배경: 해진 후 -->
+      <div class="sunsetWrap fullscreen static">
+        <div class="sunsetSun gone"></div>
+        <div class="sunsetHorizon"></div>
+      </div>
+
+      <div class="center">
+        <div class="modal">
+          <div class="modal__header">
+            <div class="modal__left">
+              <div class="modal__icon"></div>
+              <div class="modal__headerTitle">알림</div>
+            </div>
+            <div class="modal__controls">
+              <div class="windowBtn minimize">_</div>
+              <div class="windowBtn maximize"></div>
+              <div class="windowBtn close">×</div>
+            </div>
+          </div>
+          <div class="modal__content">
+            <div class="modal__title">Q. 2026년을 맞이하시겠습니까?</div>
+            <div class="modal__actions">
+              <button class="btn" id="stay2026">아니오</button>
+              <button class="btn" id="welcome2026">네</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 5: 해 뜨는 모션 -->
+    <div class="step" data-step="5">
+      <div class="sunWrap fullscreen">
+        <div class="sun"></div>
+        <div class="horizon"></div>
+        <div class="yearLabel2026">2026</div>
+        <div class="clock" id="clock">
+          <div class="clock__digit">0</div>
+          <div class="clock__digit">0</div>
+          <div class="clock__separator">:</div>
+          <div class="clock__digit">0</div>
+          <div class="clock__digit">0</div>
+          <div class="clock__separator">:</div>
+          <div class="clock__digit">0</div>
+          <div class="clock__digit">0</div>
+        </div>
+        <div class="newYearMessage" id="newYearMessage"></div>
+      </div>
+
+      <!-- 폭죽 캔버스 -->
+      <canvas id="fxFinal" class="fx" aria-hidden="true"></canvas>
+
+      <div class="restartArea">
+        <button class="next" id="restart">다시 시작</button>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- 이미지 저장용(딱 1개만 사용) -->
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
