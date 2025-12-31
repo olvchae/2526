@@ -379,10 +379,18 @@ body{
 .paper__corner{
   position:absolute;
   right:0; bottom:0;
-  width: 16px; height: 16px;
+  width: clamp(10px, 2.5vw, 16px);
+  height: clamp(10px, 2.5vw, 16px);
   background: linear-gradient(135deg, transparent 50%, rgba(0,0,0,.10) 50%);
   border-left: var(--b) solid #111;
   border-top: var(--b) solid #111;
+}
+
+@media (max-width: 768px) {
+  .paper__corner{
+    width: 10px;
+    height: 10px;
+  }
 }
 
 /* 라인 + 입력 */
