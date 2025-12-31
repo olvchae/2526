@@ -42,6 +42,8 @@ const sunsetWrap = document.getElementById("sunsetWrap");
 
 let currentStep = 0;
 
+// Ocean shaders removed
+
 function go(step){
   // sunsetSun 요소가 있는 모든 step에서 top 속성 충돌 방지
   const targetStep = steps[step];

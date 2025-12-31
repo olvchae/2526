@@ -112,7 +112,7 @@ body{
   gap: clamp(14px, 3.6vw, 22px);
   text-align:center;
   position: relative;
-  z-index: 10;
+  z-index: 20;
 }
 
 .step{
@@ -144,7 +144,7 @@ body{
   padding: 0;
   overflow: hidden;
   position: relative;
-  z-index: 10;
+  z-index: 15;
   margin: 0 auto;
 }
 
@@ -515,6 +515,8 @@ body{
     inset -2px -2px 0 rgba(64,64,64,.5);
   padding: 0;
   overflow: hidden;
+  position: relative;
+  z-index: 15;
 }
 .modal__header{
   background: linear-gradient(180deg, #888 0%, #555 100%);
@@ -581,6 +583,7 @@ body{
   width: min(74vw, 560px);
   opacity:0;
   pointer-events:none;
+  z-index: 20;
 }
 .flyPaper.show{
   opacity:1;
@@ -719,9 +722,49 @@ body{
   left:0; right:0;
   bottom:0;
   height: 35%;
-  /* dark, dusty purple sea */
-  background: linear-gradient(180deg, rgb(70, 90, 130) 0%, rgb(100, 90, 120) 100%);
+  /* clearer sunset sea with natural multi-layer gradation */
+  background:
+    linear-gradient(180deg,
+      rgba(70, 85, 115, 0.8) 0%,
+      rgba(82, 97, 128, 1) 15%,
+      rgba(90, 95, 130, 1) 40%,
+      rgba(100, 98, 132, 1) 70%,
+      rgba(107, 102, 133, 1) 90%,
+      rgba(98, 92, 125, 1) 100%
+    );
   z-index: 2;
+  overflow: hidden;
+}
+
+/* WebGL Ocean Canvas */
+.oceanCanvas{
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+/* Global ocean canvas container - always rendered */
+.oceanCanvasContainer{
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 35%;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.oceanCanvas--global{
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transition: opacity 0.25s ease-out;
 }
 
 .sunsetSun{
@@ -739,6 +782,27 @@ body{
   z-index: 1;
   /* soft glow */
   box-shadow: 0 0 50px 20px rgba(255, 210, 140, 0.55);
+}
+
+.sunsetSun::after{
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 100%;
+  transform: translateX(-50%) scaleY(0.6);
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(ellipse at center top,
+    rgba(255, 200, 120, 0.5) 0%,
+    rgba(255, 180, 100, 0.35) 25%,
+    rgba(255, 160, 80, 0.2) 50%,
+    rgba(255, 140, 60, 0.1) 75%,
+    transparent 100%
+  );
+  filter: blur(12px);
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0.75;
 }
 
 .yearLabel{
@@ -792,10 +856,20 @@ body{
   left:0; right:0;
   bottom:0;
   height: 35%;
-  /* clear blue sea */
-  background: linear-gradient(180deg, rgb(100, 150, 190) 0%, rgb(120, 180, 190) 100%);
+  /* slightly darker sunrise sea with natural multi-layer gradation */
+  background:
+    linear-gradient(180deg,
+      rgba(88, 125, 165, 0.9) 0%,
+      rgba(100, 140, 180, 1) 15%,
+      rgba(108, 148, 185, 1) 40%,
+      rgba(115, 155, 190, 1) 70%,
+      rgba(120, 165, 195, 1) 90%,
+      rgba(112, 158, 188, 1) 100%
+    );
   z-index: 2;
+  overflow: hidden;
 }
+
 
 .sun{
   position:absolute;
@@ -811,6 +885,27 @@ body{
   animation: sunrise 3.5s ease-in-out forwards;
   z-index: 1;
   box-shadow: 0 0 60px 20px rgba(255, 240, 200, 0.4);
+}
+
+.sun::after{
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 100%;
+  transform: translateX(-50%) scaleY(0.6);
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(ellipse at center top,
+    rgba(255, 240, 200, 0.45) 0%,
+    rgba(255, 220, 180, 0.32) 25%,
+    rgba(255, 200, 150, 0.18) 50%,
+    rgba(255, 180, 120, 0.08) 75%,
+    transparent 100%
+  );
+  filter: blur(14px);
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0.7;
 }
 
 .yearLabel2026{
@@ -1005,3 +1100,154 @@ body{
   background: linear-gradient(180deg, rgba(240, 245, 255, 0.5) 0%, rgba(240, 245, 255, 0) 100%);
   filter: blur(8px);
 }
+
+/* 해지는 장면 구름들 */
+.cloud{
+  position: absolute;
+  z-index: 3;
+  opacity: 0.4;
+}
+
+.cloud::before{
+  content: '';
+  position: absolute;
+  background: rgba(255, 200, 180, 0.55);
+  border-radius: 50%;
+  filter: blur(20px);
+}
+
+.cloud1{
+  top: 12%;
+  left: 8%;
+  width: clamp(280px, 42vw, 420px);
+  height: clamp(50px, 7.5vw, 75px);
+}
+
+.cloud1::before{
+  width: clamp(280px, 42vw, 420px);
+  height: clamp(50px, 7.5vw, 75px);
+}
+
+.cloud2{
+  top: 18%;
+  right: 5%;
+  width: clamp(250px, 38vw, 380px);
+  height: clamp(45px, 7vw, 70px);
+}
+
+.cloud2::before{
+  width: clamp(250px, 38vw, 380px);
+  height: clamp(45px, 7vw, 70px);
+}
+
+.cloud3{
+  top: 32%;
+  left: 42%;
+  width: clamp(300px, 45vw, 450px);
+  height: clamp(55px, 8vw, 80px);
+}
+
+.cloud3::before{
+  width: clamp(300px, 45vw, 450px);
+  height: clamp(55px, 8vw, 80px);
+}
+
+.cloud4{
+  top: 45%;
+  left: 10%;
+  width: clamp(220px, 35vw, 350px);
+  height: clamp(40px, 6.5vw, 65px);
+}
+
+.cloud4::before{
+  width: clamp(220px, 35vw, 350px);
+  height: clamp(40px, 6.5vw, 65px);
+}
+
+.cloud5{
+  top: 55%;
+  right: 12%;
+  width: clamp(260px, 40vw, 400px);
+  height: clamp(48px, 7.2vw, 72px);
+}
+
+.cloud5::before{
+  width: clamp(260px, 40vw, 400px);
+  height: clamp(48px, 7.2vw, 72px);
+}
+
+/* 해뜨는 장면 구름들 */
+.sunriseCloud{
+  position: absolute;
+  z-index: 3;
+  opacity: 0.3;
+}
+
+.sunriseCloud::before{
+  content: '';
+  position: absolute;
+  background: rgba(255, 245, 220, 0.4);
+  border-radius: 50%;
+  filter: blur(25px);
+}
+
+.sunriseCloud1{
+  top: 12%;
+  left: 8%;
+  width: clamp(280px, 42vw, 420px);
+  height: clamp(50px, 7.5vw, 75px);
+}
+
+.sunriseCloud1::before{
+  width: clamp(280px, 42vw, 420px);
+  height: clamp(50px, 7.5vw, 75px);
+}
+
+.sunriseCloud2{
+  top: 18%;
+  right: 5%;
+  width: clamp(250px, 38vw, 380px);
+  height: clamp(45px, 7vw, 70px);
+}
+
+.sunriseCloud2::before{
+  width: clamp(250px, 38vw, 380px);
+  height: clamp(45px, 7vw, 70px);
+}
+
+.sunriseCloud3{
+  top: 32%;
+  left: 42%;
+  width: clamp(300px, 45vw, 450px);
+  height: clamp(55px, 8vw, 80px);
+}
+
+.sunriseCloud3::before{
+  width: clamp(300px, 45vw, 450px);
+  height: clamp(55px, 8vw, 80px);
+}
+
+.sunriseCloud4{
+  top: 45%;
+  left: 10%;
+  width: clamp(220px, 35vw, 350px);
+  height: clamp(40px, 6.5vw, 65px);
+}
+
+.sunriseCloud4::before{
+  width: clamp(220px, 35vw, 350px);
+  height: clamp(40px, 6.5vw, 65px);
+}
+
+.sunriseCloud5{
+  top: 55%;
+  right: 12%;
+  width: clamp(260px, 40vw, 400px);
+  height: clamp(48px, 7.2vw, 72px);
+}
+
+.sunriseCloud5::before{
+  width: clamp(260px, 40vw, 400px);
+  height: clamp(48px, 7.2vw, 72px);
+}
+
