@@ -466,9 +466,12 @@ body{
   box-shadow: inset -2px -2px 0 #b1b1b1, inset 2px 2px 0 #efefef;
   font-family: var(--font);
   font-size: clamp(16px, 3.8vw, 22px);
+  color: #111;
   cursor:pointer;
   transition: transform 0.05s, background 0.15s;
   position: relative;
+  -webkit-appearance: none;
+  appearance: none;
 }
 
 .next:hover, .btn:hover{
