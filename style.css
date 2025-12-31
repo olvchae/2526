@@ -324,7 +324,7 @@ body{
   background: var(--paper);
   box-shadow: 0 12px 0 rgba(0,0,0,.10), inset 2px 2px 0 rgba(255,255,255,.9);
   position:relative;
-  padding: clamp(14px, 3.2vw, 18px);
+  padding: clamp(10px, 2.5vw, 18px);
   text-align:left;
 }
 .paper--fresh{
@@ -342,7 +342,7 @@ body{
 .paper__inner{
   display:flex;
   flex-direction:column;
-  gap: clamp(12px, 3.2vw, 18px);
+  gap: clamp(10px, 2.5vw, 18px);
 }
 .paper__footer{
   font-size: clamp(11px, 2.6vw, 13px);
@@ -365,29 +365,33 @@ body{
 .lineRow{
   display:flex;
   align-items:center;
-  gap: 12px;
+  gap: clamp(8px, 2vw, 12px);
 }
 .num{
-  width: 32px;
-  font-size: clamp(18px, 4.2vw, 24px);
+  width: clamp(24px, 6vw, 32px);
+  font-size: clamp(16px, 4vw, 24px);
+  flex-shrink: 0;
 }
-.star{ width: 32px; }
+.star{
+  width: clamp(24px, 6vw, 32px);
+  flex-shrink: 0;
+}
 
 .inp{
   flex:1;
   border: 0;
   outline: none;
   font-family: var(--font);
-  font-size: max(16px, clamp(15px, 3.4vw, 19px));
-  padding: 8px 10px;
-  min-height: 40px;
+  font-size: max(16px, clamp(14px, 3.2vw, 19px));
+  padding: clamp(6px, 1.5vw, 8px) clamp(8px, 2vw, 10px);
+  min-height: clamp(36px, 9vw, 40px);
 
   background:
     linear-gradient(transparent 70%, var(--line) 71%, var(--line) 73%, transparent 74%);
-  background-size: 100% 38px;
-  background-position: 0 8px;
+  background-size: 100% clamp(34px, 8.5vw, 38px);
+  background-position: 0 clamp(6px, 1.5vw, 8px);
 
-  border-left: 3px solid rgba(0,0,0,.06);
+  border-left: clamp(2px, 0.5vw, 3px) solid rgba(0,0,0,.06);
   border-bottom: 2px solid rgba(0,0,0,.18);
   box-shadow: inset 2px 2px 0 rgba(255,255,255,.7), inset -2px -2px 0 rgba(0,0,0,.06);
 }
