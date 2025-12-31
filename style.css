@@ -133,7 +133,7 @@ body{
 
 /* 윈도우 알림창 스타일 */
 .questionCard{
-  width: min(90vw, 580px);
+  width: min(92vw, 580px);
   max-width: 580px;
   border: 3px solid #111;
   background: #d4d0c8;
@@ -146,6 +146,12 @@ body{
   position: relative;
   z-index: 10;
   margin: 0 auto;
+}
+
+@media (max-width: 768px) {
+  .questionCard{
+    width: 94vw;
+  }
 }
 
 .questionCard__header{
@@ -217,8 +223,14 @@ body{
 }
 
 .questionCard__body{
-  padding: clamp(14px, 3.5vw, 20px);
+  padding: clamp(12px, 3vw, 20px);
   background: #d4d0c8;
+}
+
+@media (max-width: 768px) {
+  .questionCard__body{
+    padding: 10px;
+  }
 }
 
 .questionText{
@@ -324,8 +336,14 @@ body{
   background: var(--paper);
   box-shadow: 0 12px 0 rgba(0,0,0,.10), inset 2px 2px 0 rgba(255,255,255,.9);
   position:relative;
-  padding: clamp(10px, 2.5vw, 18px);
+  padding: clamp(8px, 2vw, 18px);
   text-align:left;
+}
+
+@media (max-width: 768px) {
+  .paper{
+    padding: 8px;
+  }
 }
 .paper--fresh{
   background: var(--paper2);
@@ -342,7 +360,13 @@ body{
 .paper__inner{
   display:flex;
   flex-direction:column;
-  gap: clamp(10px, 2.5vw, 18px);
+  gap: clamp(8px, 2vw, 18px);
+}
+
+@media (max-width: 768px) {
+  .paper__inner{
+    gap: 8px;
+  }
 }
 .paper__footer{
   font-size: clamp(11px, 2.6vw, 13px);
@@ -365,15 +389,15 @@ body{
 .lineRow{
   display:flex;
   align-items:center;
-  gap: clamp(8px, 2vw, 12px);
+  gap: clamp(6px, 1.8vw, 12px);
 }
 .num{
-  width: clamp(24px, 6vw, 32px);
-  font-size: clamp(16px, 4vw, 24px);
+  width: clamp(20px, 5.5vw, 32px);
+  font-size: clamp(14px, 3.8vw, 24px);
   flex-shrink: 0;
 }
 .star{
-  width: clamp(24px, 6vw, 32px);
+  width: clamp(20px, 5.5vw, 32px);
   flex-shrink: 0;
 }
 
@@ -382,21 +406,39 @@ body{
   border: 0;
   outline: none;
   font-family: var(--font);
-  font-size: max(16px, clamp(14px, 3.2vw, 19px));
-  padding: clamp(6px, 1.5vw, 8px) clamp(8px, 2vw, 10px);
-  min-height: clamp(36px, 9vw, 40px);
+  font-size: max(16px, clamp(13px, 3vw, 19px));
+  padding: clamp(5px, 1.2vw, 8px) clamp(6px, 1.8vw, 10px);
+  min-height: clamp(32px, 8vw, 40px);
+  min-width: 0;
 
   background:
     linear-gradient(transparent 70%, var(--line) 71%, var(--line) 73%, transparent 74%);
-  background-size: 100% clamp(34px, 8.5vw, 38px);
-  background-position: 0 clamp(6px, 1.5vw, 8px);
+  background-size: 100% clamp(30px, 7.5vw, 38px);
+  background-position: 0 clamp(5px, 1.2vw, 8px);
 
-  border-left: clamp(2px, 0.5vw, 3px) solid rgba(0,0,0,.06);
+  border-left: clamp(1px, 0.4vw, 3px) solid rgba(0,0,0,.06);
   border-bottom: 2px solid rgba(0,0,0,.18);
   box-shadow: inset 2px 2px 0 rgba(255,255,255,.7), inset -2px -2px 0 rgba(0,0,0,.06);
 }
 .inp:focus{
   border-bottom-color: rgba(0,0,0,.35);
+}
+
+@media (max-width: 768px) {
+  .lineRow{
+    gap: 6px;
+  }
+  .num, .star{
+    width: 20px;
+    font-size: 14px;
+  }
+  .inp{
+    font-size: 14px;
+    padding: 5px 6px;
+    min-height: 32px;
+    background-size: 100% 30px;
+    background-position: 0 5px;
+  }
 }
 
 /* 버튼들 */
